@@ -6,6 +6,8 @@ from src.auth.schemas import UserRead, UserCreate
 import uuid
 from src.auth.utils import get_user_manager
 
+#aboba
+
 app = FastAPI()
 
 fastapi_users = FastAPIUsers[UsersOrm, uuid.UUID](
