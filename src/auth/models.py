@@ -1,6 +1,6 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlalchemy import Integer, String, ForeignKey, UUID, Uuid, text, Boolean, sql
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, ForeignKey, text, Boolean, sql
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base, created_at, updated_at, uuid_pk, UUID_ID
 
 
@@ -24,6 +24,7 @@ class UsersOrm(SQLAlchemyBaseUserTable[UUID_ID],Base):
     created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
 
+    #role: Mapped["RolesOrm"] = relationship(back_populates='roles')
 
 class RolesOrm(Base):
 
@@ -34,3 +35,5 @@ class RolesOrm(Base):
 
     created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
+
+    #role: Mapped["UsersOrm"] = relationship(back_populates='users')

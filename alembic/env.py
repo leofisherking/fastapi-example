@@ -22,9 +22,11 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from src.auth.models import Base as auth_base
+from src.database import Base
+from src.auth.models import UsersOrm, RolesOrm
+from src.entity.models import EntitiesOrm, TagsOrm, EntitiesTagsOrm
 
-target_metadata = auth_base.metadata
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

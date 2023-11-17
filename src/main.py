@@ -5,8 +5,11 @@ from src.auth.models import UsersOrm
 from src.auth.schemas import UserRead, UserCreate
 import uuid
 from src.auth.utils import get_user_manager
+from src.entity.router import entity_router
+
 
 app = FastAPI()
+
 
 fastapi_users = FastAPIUsers[UsersOrm, uuid.UUID](
     get_user_manager,
@@ -24,3 +27,5 @@ app.include_router(
     prefix="/auth",
     tags=["auth"],
 )
+
+app.include_router(entity_router)
