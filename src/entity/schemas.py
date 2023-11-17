@@ -12,4 +12,4 @@ class Entity(BaseModel):
     description: Annotated[str, MaxLen(1024)] | None
     price: PositiveFloat
 
-    #tags: list[Tag] | None
+    # tags: list[Tag] | None

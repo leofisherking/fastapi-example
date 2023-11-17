@@ -20,16 +20,23 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
         yield session
 
 
-#Custom column types
+# Custom column types
 
 UUID_ID = uuid.UUID
-uuid_pk = Annotated[UUID_ID, mapped_column(UUID, primary_key=True, server_default=text("gen_random_uuid()"))]
+uuid_pk = Annotated[
+    UUID_ID,
+    mapped_column(UUID, primary_key=True, server_default=text("gen_random_uuid()")),
+]
 
-created_at = Annotated[datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))]
-updated_at = Annotated[datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))]
+created_at = Annotated[
+    datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))
+]
+updated_at = Annotated[
+    datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))
+]
 
 
-#Триггер updated_at на стороне бд. Импрортируется в алембик ревизию
+# Триггер updated_at на стороне бд. Импрортируется в алембик ревизию
 create_refresh_updated_at_func = """
     CREATE FUNCTION public.refresh_updated_at()
     RETURNS TRIGGER

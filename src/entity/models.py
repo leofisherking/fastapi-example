@@ -4,7 +4,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class EntitiesOrm(Base):
-
     __tablename__ = "entities"
 
     id: Mapped[uuid_pk]
@@ -16,11 +15,10 @@ class EntitiesOrm(Base):
     created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
 
-    #tags: Mapped[list["TagsOrm"]] = relationship(back_populates='tags', secondary='entitiestags')
+    # tags: Mapped[list["TagsOrm"]] = relationship(back_populates='tags', secondary='entitiestags')
 
 
 class TagsOrm(Base):
-
     __tablename__ = "tags"
 
     id: Mapped[uuid_pk]
@@ -30,12 +28,16 @@ class TagsOrm(Base):
     created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
 
-    #entities: Mapped[list["EntitiesOrm"]] = relationship(back_populates='entities', secondary='entitiestags')
+    # entities: Mapped[list["EntitiesOrm"]] = relationship(back_populates='entities', secondary='entitiestags')
 
 
 class EntitiesTagsOrm(Base):
-
     __tablename__ = "entitiestags"
 
-    entity_id: Mapped[UUID_ID] = mapped_column(ForeignKey('entities.id', ondelete='CASCADE'), primary_key=True, )
-    tag_id: Mapped[UUID_ID] = mapped_column(ForeignKey('tags.id', ondelete='CASCADE'), primary_key=True)
+    entity_id: Mapped[UUID_ID] = mapped_column(
+        ForeignKey("entities.id", ondelete="CASCADE"),
+        primary_key=True,
+    )
+    tag_id: Mapped[UUID_ID] = mapped_column(
+        ForeignKey("tags.id", ondelete="CASCADE"), primary_key=True
+    )
