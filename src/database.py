@@ -8,7 +8,11 @@ from src.global_config import config
 
 
 engine = create_async_engine(config.pg_dsn)
-async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+async_session_maker = async_sessionmaker(
+    engine,
+    expire_on_commit=False,
+    autoflush=False,
+)
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:

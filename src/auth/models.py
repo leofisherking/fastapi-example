@@ -4,7 +4,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base, uuid_pk, UUID_ID
 
 
-# TODO починить релейшншипы, разобраться с back_populates
 class UsersOrm(SQLAlchemyBaseUserTable[UUID_ID], Base):
     __tablename__ = "users"
 
@@ -29,7 +28,7 @@ class UsersOrm(SQLAlchemyBaseUserTable[UUID_ID], Base):
         Boolean, server_default=sql.false(), nullable=False
     )
 
-    # role: Mapped["RolesOrm"] = relationship(back_populates='roles')
+    role: Mapped["RolesOrm"] = relationship(back_populates="users")
 
 
 class RolesOrm(Base):
@@ -38,4 +37,4 @@ class RolesOrm(Base):
     id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
     name: Mapped[str] = mapped_column(String(16))
 
-    # role: Mapped["UsersOrm"] = relationship(back_populates='users')
+    users: Mapped["UsersOrm"] = relationship(back_populates="role")
