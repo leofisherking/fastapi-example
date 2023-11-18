@@ -1,14 +1,10 @@
 import datetime
-from sqlalchemy.orm import mapped_column, DeclarativeBase
+from sqlalchemy.orm import mapped_column, DeclarativeBase, Mapped
 from sqlalchemy import UUID, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from typing import Annotated, AsyncGenerator
 import uuid
 from src.global_config import config
-
-
-class Base(DeclarativeBase):
-    pass
 
 
 engine = create_async_engine(config.pg_dsn)
@@ -34,6 +30,13 @@ created_at = Annotated[
 updated_at = Annotated[
     datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))
 ]
+
+
+class Base(DeclarativeBase):
+    __abstract__ = True
+
+    created_at: Mapped[created_at]
+    updated_at: Mapped[updated_at]
 
 
 # Триггер updated_at на стороне бд. Импрортируется в алембик ревизию

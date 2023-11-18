@@ -1,9 +1,10 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 from sqlalchemy import String, ForeignKey, text, Boolean, sql
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.database import Base, created_at, updated_at, uuid_pk, UUID_ID
+from src.database import Base, uuid_pk, UUID_ID
 
 
+# TODO починить релейшншипы, разобраться с back_populates
 class UsersOrm(SQLAlchemyBaseUserTable[UUID_ID], Base):
     __tablename__ = "users"
 
@@ -28,9 +29,6 @@ class UsersOrm(SQLAlchemyBaseUserTable[UUID_ID], Base):
         Boolean, server_default=sql.false(), nullable=False
     )
 
-    created_at: Mapped[created_at]
-    updated_at: Mapped[updated_at]
-
     # role: Mapped["RolesOrm"] = relationship(back_populates='roles')
 
 
@@ -39,8 +37,5 @@ class RolesOrm(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
     name: Mapped[str] = mapped_column(String(16))
-
-    created_at: Mapped[created_at]
-    updated_at: Mapped[updated_at]
 
     # role: Mapped["UsersOrm"] = relationship(back_populates='users')

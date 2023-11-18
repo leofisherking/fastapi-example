@@ -1,14 +1,14 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
 import uuid
-
 from sqlalchemy import insert
-
 from src.entity.schemas import Entity
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import get_async_session
 from src.entity.models import EntitiesOrm
 
+# TODO реализовать добавление тегов, сущностей и сущность+тег
+#   реализовать паттерн репозиторий + сервисы
 entity_router = APIRouter(prefix="/entities", tags=["entities"])
 
 
