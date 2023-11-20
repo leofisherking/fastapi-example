@@ -1,5 +1,5 @@
 from src.database import Base, uuid_pk, UUID_ID
-from sqlalchemy import String, ForeignKey, Numeric
+from sqlalchemy import String, ForeignKey, Numeric, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
@@ -28,10 +28,15 @@ class TagsOrm(Base):
 class EntitiesTagsOrm(Base):
     __tablename__ = "entitiestags"
 
+    id: Mapped[uuid_pk]
+
     entity_id: Mapped[UUID_ID] = mapped_column(
         ForeignKey("entities.id", ondelete="CASCADE"),
-        primary_key=True,
+        nullable=False,
     )
     tag_id: Mapped[UUID_ID] = mapped_column(
-        ForeignKey("tags.id", ondelete="CASCADE"), primary_key=True
+        ForeignKey("tags.id", ondelete="CASCADE"),
+        nullable=False,
     )
+
+    UniqueConstraint("entity_id", "tag_id", name="idx_unq_entity_tag")

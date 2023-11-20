@@ -37,4 +37,4 @@ class RolesOrm(Base):
     id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
     name: Mapped[str] = mapped_column(String(16))
 
-    users: Mapped["UsersOrm"] = relationship(back_populates="role")
+    users: Mapped[list["UsersOrm"]] = relationship(back_populates="role")
