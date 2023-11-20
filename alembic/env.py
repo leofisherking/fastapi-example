@@ -24,7 +24,9 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 from src.database import Base
 from src.auth.models import UsersOrm, RolesOrm
-from src.entity.models import EntitiesOrm, TagsOrm, EntitiesTagsOrm
+from src.entity.models import EntitiesOrm
+from src.relationship_models import EntitiesTagsOrm
+from src.tag.models import TagsOrm
 
 target_metadata = Base.metadata
 

@@ -1,10 +1,7 @@
 from typing import Annotated
 from annotated_types import MinLen, MaxLen
 from pydantic import BaseModel, PositiveFloat
-
-
-class Tag(BaseModel):
-    name: Annotated[str, MinLen(3), MaxLen(16)]
+from src.tag.schemas import Tag
 
 
 class Entity(BaseModel):

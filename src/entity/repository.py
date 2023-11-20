@@ -1,21 +1,10 @@
 import uuid
-from abc import ABC, abstractmethod
-from typing import Annotated
-
-from fastapi import Depends
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
-
-from src.database import get_async_session, async_session_maker
-from src.entity.models import EntitiesOrm, TagsOrm
-from src.entity.schemas import Entity
-
-
-class AbstractRepo(ABC):
-    @abstractmethod
-    async def create(self, data: dict):
-        raise NotImplementedError
+from src.database import async_session_maker
+from src.entity.models import EntitiesOrm
+from src.tag.models import TagsOrm
+from src.abstract_repo import AbstractRepo
 
 
 class EntityRepo(AbstractRepo):
@@ -43,5 +32,5 @@ class EntityRepo(AbstractRepo):
     async def get_all(self):
         pass
 
-    async def get_one(self, entity_id: uuid.UUID):
+    async def get_by_id(self, entity_id: uuid.UUID):
         pass

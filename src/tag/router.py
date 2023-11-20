@@ -6,23 +6,23 @@ from src.entity.service import EntityService
 from src.entity.dependencies import entity_service
 
 
-entity_router = APIRouter(
-    prefix="/entities",
-    tags=["entities"],
+router = APIRouter(
+    prefix="/tags",
+    tags=["Tags"],
 )
 
 
-@entity_router.get("/")
+@router.get("/")
 async def get_entities():
     return "get_all"
 
 
-@entity_router.get("/{id}/")
+@router.get("/{id}/")
 async def get_entity_by_id(e_id: uuid.UUID):
     return "get_by_id"
 
 
-@entity_router.post("/")
+@router.post("/")
 async def create_entity(
     entity: Entity,
     service: Annotated[EntityService, Depends(entity_service)],
