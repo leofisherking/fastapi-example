@@ -1,5 +1,6 @@
 from typing import Annotated
 
+import uvicorn
 from fastapi import FastAPI, Depends
 from fastapi_users import FastAPIUsers
 from sqlalchemy import select

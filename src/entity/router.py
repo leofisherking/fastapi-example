@@ -1,14 +1,17 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
 import uuid
-from sqlalchemy import insert
+from sqlalchemy import insert, select
+from sqlalchemy.orm import selectinload
+
+from src.entity.repository import EntityRepo
 from src.entity.schemas import Entity
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import get_async_session
-from src.entity.models import EntitiesOrm
+from src.entity.models import EntitiesOrm, TagsOrm
+from src.entity.service import EntityService
+from src.entity.dependencies import entity_service
 
-# TODO реализовать добавление тегов, сущностей и сущность+тег
-#   реализовать паттерн репозиторий + сервисы
 entity_router = APIRouter(prefix="/entities", tags=["entities"])
 
 
@@ -24,11 +27,8 @@ async def get_entity(e_id: uuid.UUID):
 
 @entity_router.post("/")
 async def create_entity(
-    entity: Entity, session: Annotated[AsyncSession, Depends(get_async_session)]
-):
-    e_dict = entity.model_dump()
-    stmt = insert(EntitiesOrm).values(**e_dict).returning(EntitiesOrm.id)
-    res = await session.execute(stmt)
-    await session.commit()
-
-    return {"e_id": res.scalar_one()}
+    entity: Entity,
+    service: Annotated[EntityService, Depends(entity_service)],
+) -> Entity:
+    created_entity = await service.create_entity(entity)
+    return created_entity

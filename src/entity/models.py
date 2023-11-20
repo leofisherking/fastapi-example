@@ -12,7 +12,10 @@ class EntitiesOrm(Base):
     description: Mapped[str] = mapped_column(String(1024))
     price: Mapped[float] = mapped_column(Numeric(precision=9, scale=2), nullable=False)
 
-    # tags: Mapped[list["TagsOrm"]] = relationship(back_populates='tags', secondary='entitiestags')
+    tags: Mapped[list["TagsOrm"]] = relationship(
+        back_populates="entities",
+        secondary="entitiestags",
+    )
 
 
 class TagsOrm(Base):
@@ -22,7 +25,10 @@ class TagsOrm(Base):
 
     name: Mapped[str] = mapped_column(String(16))
 
-    # entities: Mapped[list["EntitiesOrm"]] = relationship(back_populates='entities', secondary='entitiestags')
+    entities: Mapped[list["EntitiesOrm"]] = relationship(
+        back_populates="tags",
+        secondary="entitiestags",
+    )
 
 
 class EntitiesTagsOrm(Base):
