@@ -60,4 +60,3 @@ async def get_roles(
     res = await session.execute(stmt)
     roles = res.scalars().all()
     return roles
-
