@@ -61,6 +61,3 @@ async def get_roles(
     roles = res.scalars().all()
     return roles
 
-
-"""if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True)"""
