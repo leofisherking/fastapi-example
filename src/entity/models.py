@@ -1,8 +1,8 @@
 from src.database import Base, uuid_pk
 from sqlalchemy import String, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from typing import TYPE_CHECKING
+from src.relationship_models import EntitiesTagsOrm
 
 if TYPE_CHECKING:
     from src.tag.models import TagsOrm

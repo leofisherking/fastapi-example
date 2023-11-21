@@ -1,10 +1,9 @@
-from typing import Annotated
-from fastapi import APIRouter, Depends
 import uuid
-from src.entity.schemas import Entity
-from src.entity.service import EntityService
-from src.entity.dependencies import entity_service
 
+from fastapi import APIRouter
+
+from src.tag.dependencies import service_dependency
+from src.tag.schemas import Tag
 
 router = APIRouter(
     prefix="/tags",
@@ -13,19 +12,26 @@ router = APIRouter(
 
 
 @router.get("/")
-async def get_entities():
-    return "get_all"
+async def get_tags(
+    service: service_dependency,
+) -> list[Tag]:
+    tags = await service.get_tags()
+    return tags
 
 
 @router.get("/{id}/")
-async def get_entity_by_id(e_id: uuid.UUID):
-    return "get_by_id"
+async def get_tag_by_id(
+    tag_id: uuid.UUID,
+    service: service_dependency,
+) -> Tag:
+    tag = await service.get_by_id(tag_id)
+    return tag
 
 
 @router.post("/")
-async def create_entity(
-    entity: Entity,
-    service: Annotated[EntityService, Depends(entity_service)],
-) -> Entity:
-    created_entity = await service.create_entity(entity)
-    return created_entity
+async def create_tag(
+    tag: Tag,
+    service: service_dependency,
+) -> Tag:
+    created_tag = await service.create_tag(tag)
+    return created_tag

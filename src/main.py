@@ -12,8 +12,8 @@ from src.auth.models import UsersOrm, RolesOrm
 from src.auth.schemas import UserRead, UserCreate, RoleRead
 import uuid
 from src.auth.utils import get_user_manager
-from src.entity.router import entity_router
-
+from src.entity.router import router as entity_router
+from src.tag.router import router as tag_router
 from src.database import get_async_session
 
 app = FastAPI()
@@ -37,6 +37,7 @@ app.include_router(
 )
 
 app.include_router(entity_router)
+app.include_router(tag_router)
 
 
 # один ко многим со стороны многих
@@ -59,3 +60,7 @@ async def get_roles(
     res = await session.execute(stmt)
     roles = res.scalars().all()
     return roles
+
+
+"""if __name__ == "__main__":
+    uvicorn.run("main:app", reload=True)"""
