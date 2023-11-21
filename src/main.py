@@ -1,28 +1,19 @@
 from typing import Annotated
-
-import uvicorn
 from fastapi import FastAPI, Depends
-from fastapi_users import FastAPIUsers
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
-
 from src.auth.auth import auth_backend
 from src.auth.models import UsersOrm, RolesOrm
 from src.auth.schemas import UserRead, UserCreate, RoleRead
-import uuid
-from src.auth.utils import get_user_manager
 from src.entity.router import router as entity_router
+from src.global_dependencies import fastapi_users
 from src.tag.router import router as tag_router
 from src.database import get_async_session
 
+
 app = FastAPI()
 
-
-fastapi_users = FastAPIUsers[UsersOrm, uuid.UUID](
-    get_user_manager,
-    [auth_backend],
-)
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),

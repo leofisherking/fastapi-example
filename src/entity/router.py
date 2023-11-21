@@ -1,12 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 import uuid
 from src.entity.schemas import Entity
 from src.entity.dependencies import service_dependency
+from src.global_dependencies import authorized_user
 
 
 router = APIRouter(
     prefix="/entities",
     tags=["Entities"],
+    dependencies=[Depends(authorized_user)],
 )
 
 

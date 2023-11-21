@@ -1,13 +1,14 @@
 import uuid
-
-from fastapi import APIRouter
-
+from fastapi import APIRouter, Depends
+from src.global_dependencies import authorized_user
 from src.tag.dependencies import service_dependency
 from src.tag.schemas import Tag
+
 
 router = APIRouter(
     prefix="/tags",
     tags=["Tags"],
+    dependencies=[Depends(authorized_user)],
 )
 
 
