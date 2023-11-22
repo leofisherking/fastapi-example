@@ -3,20 +3,20 @@ from annotated_types import MinLen, MaxLen
 from pydantic import BaseModel, PositiveFloat
 
 
-class Entity(BaseModel):
-    name: Annotated[str, MinLen(3), MaxLen(16)]
-    description: Annotated[str, MaxLen(1024)] | None
-    price: PositiveFloat
-
-    tags: list["AttachedTag"]
-
-
-class AttachedEntity(BaseModel):
+class EntityBase(BaseModel):
     name: Annotated[str, MinLen(3), MaxLen(16)]
     description: Annotated[str, MaxLen(1024)] | None
     price: PositiveFloat
 
 
-from src.tag.schemas import AttachedTag
+class Entity(EntityBase):
+    tags: list["TagAttachment"]
+
+
+class EntityAttachment(EntityBase):
+    pass
+
+
+from src.tag.schemas import TagAttachment
 
 Entity.model_rebuild()

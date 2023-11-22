@@ -3,15 +3,18 @@ from annotated_types import MinLen, MaxLen
 from pydantic import BaseModel
 
 
-class Tag(BaseModel):
-    name: Annotated[str, MinLen(3), MaxLen(16)]
-    entities: list["AttachedEntity"]
-
-
-class AttachedTag(BaseModel):
+class TagBase(BaseModel):
     name: Annotated[str, MinLen(3), MaxLen(16)]
 
 
-from src.entity.schemas import AttachedEntity
+class Tag(TagBase):
+    entities: list["EntityAttachment"]
+
+
+class TagAttachment(TagBase):
+    pass
+
+
+from src.entity.schemas import EntityAttachment
 
 Tag.model_rebuild()
