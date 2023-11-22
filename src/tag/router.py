@@ -1,5 +1,6 @@
 import uuid
 from fastapi import APIRouter, Depends
+from fastapi_cache.decorator import cache
 from src.global_dependencies import authorized_user
 from src.tag.dependencies import service_dependency
 from src.tag.schemas import Tag
@@ -13,6 +14,7 @@ router = APIRouter(
 
 
 @router.get("/")
+@cache(expire=60)
 async def get_tags(
     service: service_dependency,
 ) -> list[Tag]:

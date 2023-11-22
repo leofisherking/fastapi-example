@@ -1,12 +1,27 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.auth.auth import auth_backend
 from src.auth.schemas import UserRead, UserCreate
 from src.entity.router import router as entity_router
 from src.global_dependencies import fastapi_users
 from src.tag.router import router as tag_router
+from redis import asyncio as aioredis
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    redis = aioredis.from_url(
+        "redis://localhost",
+        encoding="utf8",
+        decode_responses=True,
+    )
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 app.include_router(

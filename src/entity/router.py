@@ -3,6 +3,7 @@ import uuid
 from src.entity.schemas import Entity
 from src.entity.dependencies import service_dependency
 from src.global_dependencies import authorized_user
+from fastapi_cache.decorator import cache
 
 
 router = APIRouter(
@@ -13,6 +14,7 @@ router = APIRouter(
 
 
 @router.get("/")
+@cache(expire=60)
 async def get_entities(
     service: service_dependency,
 ) -> list[Entity]:
