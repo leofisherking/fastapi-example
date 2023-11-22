@@ -12,7 +12,7 @@ class Role(BaseModel):
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
     username: Annotated[str, MinLen(3), MaxLen(16)]
-    # role: Role
+    role_id: int
 
 
 class RoleRead(Role):

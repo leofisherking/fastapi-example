@@ -29,25 +29,3 @@ app.include_router(
 
 app.include_router(entity_router)
 app.include_router(tag_router)
-
-
-# один ко многим со стороны многих
-@app.get("/users")
-async def get_users(
-    session: Annotated[AsyncSession, Depends(get_async_session)]
-) -> list[UserRead]:
-    stmt = select(UsersOrm).options(joinedload(UsersOrm.role))
-    res = await session.execute(stmt)
-    users = res.scalars().all()
-    return users
-
-
-# один ко монгим со стороны одного
-@app.get("/roles")
-async def get_roles(
-    session: Annotated[AsyncSession, Depends(get_async_session)]
-) -> list[RoleRead]:
-    stmt = select(RolesOrm).options(selectinload(RolesOrm.users))
-    res = await session.execute(stmt)
-    roles = res.scalars().all()
-    return roles
