@@ -1,15 +1,9 @@
-from typing import Annotated
-from fastapi import FastAPI, Depends
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload, selectinload
+from fastapi import FastAPI
 from src.auth.auth import auth_backend
-from src.auth.models import UsersOrm, RolesOrm
-from src.auth.schemas import UserRead, UserCreate, RoleRead
+from src.auth.schemas import UserRead, UserCreate
 from src.entity.router import router as entity_router
 from src.global_dependencies import fastapi_users
 from src.tag.router import router as tag_router
-from src.database import get_async_session
 
 
 app = FastAPI()
