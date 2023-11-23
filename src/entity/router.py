@@ -9,7 +9,6 @@ from fastapi_cache.decorator import cache
 router = APIRouter(
     prefix="/entities",
     tags=["Entities"],
-    dependencies=[Depends(authorized_user)],
 )
 
 
@@ -22,7 +21,7 @@ async def get_entities(
     return entities
 
 
-@router.get("/{id}/")
+@router.get("/{id}")
 async def get_entity_by_id(
     entity_id: uuid.UUID,
     service: service_dependency,
@@ -31,10 +30,10 @@ async def get_entity_by_id(
     return entity
 
 
-@router.post("/")
-async def create_entity(
-    entity: Entity,
-    service: service_dependency,
-) -> Entity:
+@router.post(
+    "/",
+    dependencies=[Depends(authorized_user)],
+)
+async def create_entity(entity: Entity, service: service_dependency) -> Entity:
     created_entity = await service.create_entity(entity)
     return created_entity

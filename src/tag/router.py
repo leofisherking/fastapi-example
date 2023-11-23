@@ -9,7 +9,6 @@ from src.tag.schemas import Tag
 router = APIRouter(
     prefix="/tags",
     tags=["Tags"],
-    dependencies=[Depends(authorized_user)],
 )
 
 
@@ -22,7 +21,7 @@ async def get_tags(
     return tags
 
 
-@router.get("/{id}/")
+@router.get("/{id}")
 async def get_tag_by_id(
     tag_id: uuid.UUID,
     service: service_dependency,
@@ -31,7 +30,10 @@ async def get_tag_by_id(
     return tag
 
 
-@router.post("/")
+@router.post(
+    "/",
+    dependencies=[Depends(authorized_user)],
+)
 async def create_tag(
     tag: Tag,
     service: service_dependency,
