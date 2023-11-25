@@ -11,6 +11,9 @@ class Settings(BaseSettings):
 
     jwt_secret: SecretStr
 
+    redis_host: str
+    redis_port: str
+
     @property
     def pg_dsn(self) -> PostgresDsn:
         return f"postgresql+asyncpg://{self.pg_user}:{self.pg_pass.get_secret_value()}@{self.pg_host}:{self.pg_port}/{self.pg_name}"

@@ -34,6 +34,7 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
 config.set_main_option("sqlalchemy.url", global_config.pg_dsn)
 
 

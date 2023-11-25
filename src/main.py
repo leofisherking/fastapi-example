@@ -8,12 +8,13 @@ from src.tag.router import router as tag_router
 from redis import asyncio as aioredis
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from src.global_config import config
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     redis = aioredis.from_url(
-        "redis://localhost",
+        f"redis://{config.redis_host}:{config.redis_port}",
         encoding="utf8",
         decode_responses=True,
     )
